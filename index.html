@@ -29,10 +29,21 @@
             background: linear-gradient(135deg, var(--pink-light) 0%, #F9E7E7 50%, var(--champagne-gold) 100%);
             /* 自訂背景圖（如需要，請取消下一行註解並換檔名） */
             background-image: url('k.jpg'); 
-            background-size: cover;
+		background-size: contain;      		/* 強制圖片在手機上完整顯現，絕不剪裁 */
+            background-repeat: no-repeat;  	/* 防止圖片因為不夠大而出現重複拼接 */
             background-position: center;
             color: var(--text-dark);
             padding: 20px;
+        }
+
+/* 📱 手機版自動化修正：當螢幕寬度小於 600px 時自動執行 */
+        @media (max-width: 600px) {
+            .container {
+                margin-right: auto; /* 在手機上取消強制左移，改回完美置中 */
+                margin-left: auto;
+                margin-top: 5vh;    /* 手機螢幕較短，稍微把位置調高一點，避免重疊 */
+                padding: 40px 20px; /* 稍微縮小內距，留更多空間給六合彩波波 */
+            }
         }
 
         .container {
