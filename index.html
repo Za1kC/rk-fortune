@@ -135,24 +135,9 @@
 
         /* 📱 只有「窄螢幕手機」才會觸發的專屬微調 */
         @media (max-width: 480px) {
-
-	.bg-layer {
-                /* 🟢 修正：寬度強制 100% 貼緊手機左右，高度隨原圖比例自動，絕對不裁切左右 */
-                width: auto;
-                height: auto;
-                aspect-ratio: auto; /* 保持原圖比例 */
-                top: 50%;
-                transform: translate(-50%, -50%);
-                background-size: cover;
-            }
-            body {
-                padding: 10px; 
-                /*修正：手機版同樣鎖定載入 k.jpg 背景圖 */
-                background-image: url('k.jpg'); 
-                background-size: cover; /* 高度強制100%頂天立地，寬度自動縮放 */
-                background-position: center center;
-            }
-            
+		body {
+                padding: 10px; /* 手機版邊緣留白縮小 */
+		}
             .container {
                 margin-right: auto; 
                 margin-left: auto;
