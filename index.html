@@ -36,13 +36,25 @@
             padding: 20px;
         }
 
-/* 📱 手機版自動化修正：當螢幕寬度小於 600px 時自動執行 */
+/* 📱 手機版自動化按比例縮小修正 */
         @media (max-width: 600px) {
             .container {
-                margin-right: auto; /* 在手機上取消強制左移，改回完美置中 */
+                margin-right: auto; /* 取消電腦版的左移，改回置中 */
                 margin-left: auto;
-                margin-top: 5vh;    /* 手機螢幕較短，稍微把位置調高一點，避免重疊 */
-                padding: 40px 20px; /* 稍微縮小內距，留更多空間給六合彩波波 */
+                margin-top: 12vh;   /* 調整上下位置 */
+                
+                /* 🟢 核心修正：讓整個抽獎框在手機上直接「等比例縮小」 🟢 */
+                transform: scale(0.78); /* 0.78 代表縮小到原本的 78%。如果覺得還是太大，可以改成 0.7 */
+                transform-origin: center top; /* 以頂部正中央為基準點進行縮小 */
+                
+                background: rgba(255, 255, 255, 0.35); /* 再稍微透明多一丁點（35%），讓背景更透出來 */
+            }
+            
+            /* 讓手機上的六合彩波波也稍微縮小一點點，排版更精緻 */
+            .ball {
+                width: 65px;
+                height: 65px;
+                font-size: 1.6rem;
             }
         }
 
