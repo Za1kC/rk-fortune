@@ -49,7 +49,7 @@
             max-width: 400px;       
             width: 90%;             
             margin-top: 25vh;       /* 沉到偏下方的位置 */
-            margin-right: 50px;     /* 電腦版往左挪，露出右邊背景 */
+            margin-right: 35px;     /* 電腦版往左挪，露出右邊背景 */
         }
 
         h1 {
@@ -138,7 +138,7 @@
                 padding: 10px; 
                 /* 🟢 修正：手機版同樣鎖定載入 k.jpg 背景圖 */
                 background-image: url('k.jpg'); 
-                background-size: 480px 100vh; /* 高度強制100%頂天立地，寬度自動縮放 */
+                background-size: 100% auto; /* 高度強制100%頂天立地，寬度自動縮放 */
                 background-repeat: repeat;
                 background-position: center center;
             }
@@ -146,7 +146,7 @@
             .container {
                 margin-right: auto; 
                 margin-left: auto;
-                margin-top: 5vh;    
+                margin-top: 25vh;	/* 沉到偏下方的位置 */    
                 max-width: 340px;   	/*將手機版的寬度從 450px 進一步收窄到 360px */
                 padding: 60px 20px; 
                 background: rgba(255, 255, 255, 0.3); 
