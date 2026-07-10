@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R&K fortune - 六合彩終極大獎</title>
+    <style>
+        /* 基礎變數與香檳粉色調 */
+        :root {
+            --pink-light: #FFF0F2;
+            --pink-main: #F4C2C2;
+            --champagne-gold: #F1E5AC;
+            --champagne-dark: #D4AF37;
+            --text-dark: #5A4A42;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--pink-light) 0%, #F9E7E7 50%, var(--champagne-gold) 100%);
+            /* 如果你想加入自訂背景圖，請將下一行的註解拿掉，並替換圖片路徑 */
+            /* background-image: url('fortunebg.jpg'); */
+            background-size: cover;
+            background-position: center;
+            color: var(--text-dark);
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+            border: 2px solid rgba(241, 229, 172, 0.5);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #8A7365;
+            margin-bottom: 40px;
+        }
+
+        /* 號碼球展示區 */
+        .balls-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            min-height: 100px;
+            margin-bottom: 40px;
+        }
+
+        .ball {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffffff 0%, var(--champagne-gold) 40%, var(--champagne-dark) 100%);
+            color: var(--text-dark);
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15), inset -5px -5px 15px rgba(0,0,0,0.2);
+            border: 2px solid #FFF;
+            opacity: 0;
+            transform: scale(0.3) rotate(-360deg);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .ball.show {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        /* 控制按鈕 */
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, var(--pink-main) 0%, #E8A7A7 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(244, 194, 194, 0.4);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(244, 194, 194, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn:disabled {
+            background: #CCC;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        /* 權限提示標籤 */
+        .role-badge {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>R&K fortune</h1>
+        <div class="subtitle">✨ 終極大獎抽獎現場 ✨</div>
+
+        <!-- 六個號碼球的位置 -->
+        <div class="balls-container" id="ballsContainer">
+            <div class="ball" id="ball-0"></div>
+            <div class="ball" id="ball-1"></div>
+            <div class="ball" id="ball-2"></div>
+            <div class="ball" id="ball-3"></div>
+            <div class="ball" id="ball-4"></div>
+            <div class="ball" id="ball-5"></div>
+        </div>
+
+        <!-- 只有 Master 可以操作的按鈕 -->
+        <button class="btn" id="drawBtn" onclick="drawNextBall()" style="display: none;">開出下一個號碼</button>
+        
+        <div id="statusMessage" class="role-badge">正在載入權限...</div>
+    </div>
+
+    <script>
+        // 指定的終極大獎號碼
+        const luckyNumbers = ["09", "24", "06", "25", "01", "16"];
+        let currentBallIndex = 0;
+        let isMaster = false;
+
+        // 初始化檢查：判斷是控制端(Master)還是觀看端(Viewer)
+        function init() {
+            const urlParams = new URLSearchParams(window.location.search);
+            // 只要網址後面加上 ?mode=master 就會判定為控制端
+            if (urlParams.get('mode') === 'master') {
+                isMaster = true;
+                document.getElementById('drawBtn').style.display = 'inline-block';
+                document.getElementById('statusMessage').innerText = '🔮 控制端模式 (Master)：您可以點擊按鈕控制抽獎';
+            } else {
+                document.getElementById('statusMessage').innerText = '📱 觀眾同步模式：請等待 Master 抽出號碼...';
+                // 這裡在正式環境需要加入接收 WebSocket 訊號的 code
+                // 範例：socket.on('ball_drawn', (index) => { showBall(index); });
+            }
+        }
+
+        // 顯示號碼球與滾動效果
+        function showBall(index) {
+            if (index < luckyNumbers.length) {
+                const ball = document.getElementById(`ball-${index}`);
+                ball.innerText = luckyNumbers[index];
+                ball.classList.add('show');
+            }
+        }
+
+        // Master 點擊按鈕時觸發
+        function drawNextBall() {
+            if (!isMaster) return;
+
+            if (currentBallIndex < luckyNumbers.length) {
+                showBall(currentBallIndex);
+
+                /* 
+                  【同步關鍵提示】
+                  如果你將來對接了後端（例如 Socket.io），你需要在這裡將最新的號碼 index 傳送給伺服器：
+                  socket.emit('master_draw', currentBallIndex);
+                */
+
+                currentBallIndex++;
+
+                // 如果抽完了，禁用按鈕
+                if (currentBallIndex === luckyNumbers.length) {
+                    const btn = document.getElementById('drawBtn');
+                    btn.innerText = '🎉 抽獎完成 🎉';
+                    btn.disabled = true;
+                }
+            }
+        }
+
+        // 執行初始化
+        window.onload = init;
+    </script>
+</body>
+</html>
