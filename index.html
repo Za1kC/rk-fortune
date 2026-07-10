@@ -31,11 +31,11 @@
             padding: 20px;
             /* 🟢 修正：確保背景圖正確載入，後面加上漸變色作底色緩衝 */
             background-image: url('k.jpg'); 
-            background-size: contain; 
-            background-repeat: no-repeat; 
+            background-size: cover; 
             background-position: center;
             background-color: #FFF0F2; 
-        }
+        	color: var(--text-dark);
+            padding: 20px;
 
         /* 💻 電腦版與 iPad 的抽獎框設定 */
         .container {
@@ -138,8 +138,8 @@
                 padding: 10px; 
                 /* 🟢 修正：手機版同樣鎖定載入 k.jpg 背景圖 */
                 background-image: url('k.jpg'); 
-                background-size: auto 100vh; /* 高度強制100%頂天立地，寬度自動縮放 */
-                background-repeat: no-repeat;
+                background-size: 480px 100vh; /* 高度強制100%頂天立地，寬度自動縮放 */
+                background-repeat: repeat;
                 background-position: center center;
             }
             
@@ -147,10 +147,10 @@
                 margin-right: auto; 
                 margin-left: auto;
                 margin-top: 5vh;    
-                max-width: 340px;   
+                max-width: 340px;   	/*將手機版的寬度從 450px 進一步收窄到 360px */
                 padding: 60px 20px; 
                 background: rgba(255, 255, 255, 0.3); 
-                transform: scale(0.72); 
+                transform: scale(0.7); 
                 transform-origin: center top;
             }
             
