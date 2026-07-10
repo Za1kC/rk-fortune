@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R&K fortune - 六合彩終極大獎</title>
     <style>
-        /* 基礎變數與香檳粉色調 */
         :root {
             --pink-light: #FFF0F2;
             --pink-main: #F4C2C2;
@@ -28,8 +27,8 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, var(--pink-light) 0%, #F9E7E7 50%, var(--champagne-gold) 100%);
-            /* 如果你想加入自訂背景圖，請將下一行的註解拿掉，並替換圖片路徑 */
-            /* background-image: url('fortunebg.jpg'); */
+            /* 自訂背景圖（如需要，請取消下一行註解並換檔名） */
+            /* background-image: url('my-bg.jpg'); */
             background-size: cover;
             background-position: center;
             color: var(--text-dark);
@@ -62,7 +61,6 @@
             margin-bottom: 40px;
         }
 
-        /* 號碼球展示區 */
         .balls-container {
             display: flex;
             justify-content: center;
@@ -95,7 +93,6 @@
             transform: scale(1) rotate(0deg);
         }
 
-        /* 控制按鈕 */
         .btn {
             padding: 15px 40px;
             font-size: 1.2rem;
@@ -108,24 +105,12 @@
             box-shadow: 0 5px 15px rgba(244, 194, 194, 0.4);
             transition: all 0.3s ease;
             border: 1px solid rgba(255,255,255,0.4);
+            margin: 5px;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 20px rgba(244, 194, 194, 0.6);
-        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn:disabled { background: #CCC; cursor: not-allowed; box-shadow: none; }
 
-        .btn:active {
-            transform: translateY(1px);
-        }
-
-        .btn:disabled {
-            background: #CCC;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-
-        /* 權限提示標籤 */
         .role-badge {
             margin-top: 20px;
             font-size: 0.9rem;
@@ -135,6 +120,113 @@
             background: rgba(0, 0, 0, 0.05);
         }
     </style>
+
+    <!-- 載入 Firebase 核心與即時資料庫 SDK (使用最新且穩定的 v9 模組化版本) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+        // ⚠️ 請把下面這段替換成你在 Firebase 拿到的專屬設定 ⚠️
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCMM0JK9gY8zqrNDTokTKjXmAFFK2a9u1E",
+  authDomain: "rk-fortune.firebaseapp.com",
+  databaseURL: "https://rk-fortune-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "rk-fortune",
+  storageBucket: "rk-fortune.firebasestorage.app",
+  messagingSenderId: "831909000358",
+  appId: "1:831909000358:web:cda6893f593171e1ae7067"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+        // 初始化 Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const statusRef = ref(db, 'lotteryStatus');
+
+        // 指定的終極大獎號碼
+        const luckyNumbers = ["09", "24", "06", "25", "01", "16"];
+        let currentCountInDB = 0;
+        let isMaster = false;
+
+        // 初始化判斷身份
+        function init() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const drawBtn = document.getElementById('drawBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const statusMessage = document.getElementById('statusMessage');
+
+            if (urlParams.get('mode') === 'master') {
+                isMaster = true;
+                drawBtn.style.display = 'inline-block';
+                resetBtn.style.display = 'inline-block';
+                statusMessage.innerText = '🔮 控制端模式 (Master)：您可以控制全場抽獎';
+            } else {
+                statusMessage.innerText = '📱 觀眾同步模式：已成功連線，等待 Master 抽獎...';
+            }
+
+            // 【即時同步關鍵】監聽 Firebase 資料庫的數據變動
+            onValue(statusRef, (snapshot) => {
+                const data = snapshot.val();
+                // 如果資料庫沒資料，預設為開了 0 個球
+                currentCountInDB = data ? data.drawnCount : 0;
+                
+                // 根據資料庫的最新進度，更新畫面上顯示的球
+                updateScreenBalls(currentCountInDB);
+
+                // 如果是 Master，需要根據進度控制按鈕狀態
+                if (isMaster) {
+                    if (currentCountInDB >= luckyNumbers.length) {
+                        drawBtn.innerText = '🎉 抽獎完成 🎉';
+                        drawBtn.disabled = true;
+                    } else {
+                        drawBtn.innerText = '開出下一個號碼';
+                        drawBtn.disabled = false;
+                    }
+                }
+            });
+        }
+
+        // 根據數量刷新畫面上的球
+        function updateScreenBalls(count) {
+            for (let i = 0; i < luckyNumbers.length; i++) {
+                const ball = document.getElementById(`ball-${i}`);
+                if (i < count) {
+                    ball.innerText = luckyNumbers[i];
+                    ball.classList.add('show');
+                } else {
+                    ball.innerText = '';
+                    ball.classList.remove('show');
+                }
+            }
+        }
+
+        // Master 點擊按鈕：讓資料庫的號碼開出數量 +1
+        window.drawNextBall = function() {
+            if (!isMaster) return;
+            if (currentCountInDB < luckyNumbers.length) {
+                set(statusRef, {
+                    drawnCount: currentCountInDB + 1
+                });
+            }
+        }
+
+        // Master 重設按鈕：將抽獎進度清零，全場會一秒內一起清空
+        window.resetLottery = function() {
+            if (!isMaster) return;
+            if (confirm("確定要重設抽獎狀態嗎？全場畫面將會清空。")) {
+                set(statusRef, {
+                    drawnCount: 0
+                });
+            }
+        }
+
+        // 網頁載入完成後執行
+        init();
+    </script>
 </head>
 <body>
 
@@ -142,7 +234,6 @@
         <h1>R&K fortune</h1>
         <div class="subtitle">✨ 終極大獎抽獎現場 ✨</div>
 
-        <!-- 六個號碼球的位置 -->
         <div class="balls-container" id="ballsContainer">
             <div class="ball" id="ball-0"></div>
             <div class="ball" id="ball-1"></div>
@@ -152,68 +243,13 @@
             <div class="ball" id="ball-5"></div>
         </div>
 
-        <!-- 只有 Master 可以操作的按鈕 -->
+        <!-- Master 控制鍵（預設隱藏） -->
         <button class="btn" id="drawBtn" onclick="drawNextBall()" style="display: none;">開出下一個號碼</button>
+        <button class="btn" id="resetBtn" onclick="resetLottery()" style="display: none; background: #A8A8A8;">重設</button>
         
-        <div id="statusMessage" class="role-badge">正在載入權限...</div>
+        <br>
+        <div id="statusMessage" class="role-badge">正在同步連線...</div>
     </div>
 
-    <script>
-        // 指定的終極大獎號碼
-        const luckyNumbers = ["09", "24", "06", "25", "01", "16"];
-        let currentBallIndex = 0;
-        let isMaster = false;
-
-        // 初始化檢查：判斷是控制端(Master)還是觀看端(Viewer)
-        function init() {
-            const urlParams = new URLSearchParams(window.location.search);
-            // 只要網址後面加上 ?mode=master 就會判定為控制端
-            if (urlParams.get('mode') === 'master') {
-                isMaster = true;
-                document.getElementById('drawBtn').style.display = 'inline-block';
-                document.getElementById('statusMessage').innerText = '🔮 控制端模式 (Master)：您可以點擊按鈕控制抽獎';
-            } else {
-                document.getElementById('statusMessage').innerText = '📱 觀眾同步模式：請等待 Master 抽出號碼...';
-                // 這裡在正式環境需要加入接收 WebSocket 訊號的 code
-                // 範例：socket.on('ball_drawn', (index) => { showBall(index); });
-            }
-        }
-
-        // 顯示號碼球與滾動效果
-        function showBall(index) {
-            if (index < luckyNumbers.length) {
-                const ball = document.getElementById(`ball-${index}`);
-                ball.innerText = luckyNumbers[index];
-                ball.classList.add('show');
-            }
-        }
-
-        // Master 點擊按鈕時觸發
-        function drawNextBall() {
-            if (!isMaster) return;
-
-            if (currentBallIndex < luckyNumbers.length) {
-                showBall(currentBallIndex);
-
-                /* 
-                  【同步關鍵提示】
-                  如果你將來對接了後端（例如 Socket.io），你需要在這裡將最新的號碼 index 傳送給伺服器：
-                  socket.emit('master_draw', currentBallIndex);
-                */
-
-                currentBallIndex++;
-
-                // 如果抽完了，禁用按鈕
-                if (currentBallIndex === luckyNumbers.length) {
-                    const btn = document.getElementById('drawBtn');
-                    btn.innerText = '🎉 抽獎完成 🎉';
-                    btn.disabled = true;
-                }
-            }
-        }
-
-        // 執行初始化
-        window.onload = init;
-    </script>
 </body>
 </html>
