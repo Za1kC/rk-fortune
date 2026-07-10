@@ -62,10 +62,11 @@
 
         .subtitle {
             font-size: 1.5rem;
-            color: #8A7365;
+	color: #4A3B32; 		/*加深副標題顏色 */
             margin-bottom: 40px;
+            /* 加入白色發光文字陰影，確保喺透明框內一眼睇到 */
+            text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 2px 4px rgba(0,0,0,0.1);
         }
-
         .balls-container {
             display: flex;
             justify-content: center;
@@ -134,9 +135,19 @@
 
         /* 📱 只有「窄螢幕手機」才會觸發的專屬微調 */
         @media (max-width: 480px) {
+
+	.bg-layer {
+                /* 🟢 修正：寬度強制 100% 貼緊手機左右，高度隨原圖比例自動，絕對不裁切左右 */
+                width: 100vw;
+                height: auto;
+                aspect-ratio: auto; /* 保持原圖比例 */
+                top: 50%;
+                transform: translate(-50%, -50%);
+                background-size: 100% auto;
+            }
             body {
                 padding: 10px; 
-                /* 🟢 修正：手機版同樣鎖定載入 k.jpg 背景圖 */
+                /*修正：手機版同樣鎖定載入 k.jpg 背景圖 */
                 background-image: url('k.jpg'); 
                 background-size: cover; /* 高度強制100%頂天立地，寬度自動縮放 */
                 background-position: center center;
@@ -147,7 +158,7 @@
                 margin-left: auto;
                 margin-top: 25vh;	/* 沉到偏下方的位置 */    
                 max-width: 340px;   	/*將手機版的寬度從 450px 進一步收窄到 360px */
-                padding: 60px 20px; 
+                padding: 80px 20px; 
                 background: rgba(255, 255, 255, 0.35); 
                 transform: scale(0.7); 
                 transform-origin: center top;
