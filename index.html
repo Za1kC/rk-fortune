@@ -138,12 +138,12 @@
 
 	.bg-layer {
                 /* 🟢 修正：寬度強制 100% 貼緊手機左右，高度隨原圖比例自動，絕對不裁切左右 */
-                width: 100vw;
+                width: auto;
                 height: auto;
                 aspect-ratio: auto; /* 保持原圖比例 */
                 top: 50%;
                 transform: translate(-50%, -50%);
-                background-size: 100% auto;
+                background-size: cover;
             }
             body {
                 padding: 10px; 
