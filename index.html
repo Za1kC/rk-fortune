@@ -29,27 +29,27 @@
             justify-content: center;
             color: var(--text-dark);
             padding: 20px;
+            /* 🟢 修正：確保背景圖正確載入，後面加上漸變色作底色緩衝 */
             background-image: url('k.jpg'); 
-            background-size: contain; /* 電腦和 iPad 完整顯示不裁切 */
-            background-repeat: no-repeat; /* 修正錯字 */
+            background-size: contain; 
+            background-repeat: no-repeat; 
             background-position: center;
             background-color: #FFF0F2; 
-            background: linear-gradient(135deg, var(--pink-light) 0%, #F9E7E7 50%, var(--champagne-gold) 100%);
         }
 
-        /* 💻 電腦版與 iPad 的抽獎框設定：收窄、拉長、高質感半透明、向左移 */
+        /* 💻 電腦版與 iPad 的抽獎框設定 */
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.35); /* 這裡調得非常透明（35%），可看清背景圖 */
+            background: rgba(255, 255, 255, 0.35); /* 35% 透明，等你看得清背景圖 */
             backdrop-filter: blur(8px);  
-            padding: 80px 25px;     /* 上下 80px 拉長，左右 25px 收窄 */
+            padding: 80px 25px;     
             border-radius: 24px;
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.3); 
-            max-width: 400px;       /* 鎖定高長修長形狀 */
+            max-width: 400px;       
             width: 90%;             
             margin-top: 25vh;       /* 沉到偏下方的位置 */
-            margin-right: 80px;     /* 數值加大，讓電腦版往左挪，露出右邊背景 */
+            margin-right: 80px;     /* 電腦版往左挪，露出右邊背景 */
         }
 
         h1 {
@@ -98,12 +98,12 @@
         }
 
         /* 🎨 六個波波專屬香檳粉粉嫩顏色 */
-        .ball:nth-child(1) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F1E5AC 45%, #D4AF37 100%); color: #5A4A42; } /* 09號: 香檳金 */
-        .ball:nth-child(2) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F4C2C2 45%, #F7E7C4 100%); color: #5A4A42; } /* 24號: 浪漫粉 */
-        .ball:nth-child(3) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #F3C4BF 100%); color: #5A4A42; } /* 06號: 玫瑰金 */
-        .ball:nth-child(4) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F1E5AC 45%, #F1DBC9 100%); color: #5A4A42; } /* 25號: 香檳金 */
-        .ball:nth-child(5) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F4C2C2 45%, #FADDB5 100%); color: #5A4A42; } /* 01號: 浪漫粉 */
-        .ball:nth-child(6) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #B76E79 100%); color: #5A4A42; } /* 16號: 玫瑰金 */
+        .ball:nth-child(1) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F1E5AC 45%, #D4AF37 100%); color: #5A4A42; } 
+        .ball:nth-child(2) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F4C2C2 45%, #F7E7C4 100%); color: #5A4A42; } 
+        .ball:nth-child(3) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #F3C4BF 100%); color: #5A4A42; } 
+        .ball:nth-child(4) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F1E5AC 45%, #F1DBC9 100%); color: #5A4A42; } 
+        .ball:nth-child(5) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F4C2C2 45%, #FADDB5 100%); color: #5A4A42; } 
+        .ball:nth-child(6) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #B76E79 100%); color: #5A4A42; }
 
         .btn {
             padding: 15px 40px;
@@ -132,28 +132,28 @@
             background: rgba(0, 0, 0, 0.05);
         }
 
-        /* 📱 只有「窄螢幕手機」才會觸發的專屬微調（寫在最後面，確保順利生效） */
+        /* 📱 只有「窄螢幕手機」才會觸發的專屬微調 */
         @media (max-width: 480px) {
             body {
                 padding: 10px; 
-                background-size: auto 100vh; /* 🟢 核心：高度強制100%頂天立地不裁切，寬度自動，左右裁少少 */
+                /* 🟢 修正：手機版同樣鎖定載入 k.jpg 背景圖 */
+                background-image: url('k.jpg'); 
+                background-size: auto 100vh; /* 高度強制100%頂天立地，寬度自動縮放 */
+                background-repeat: no-repeat;
                 background-position: center center;
             }
             
             .container {
-                margin-right: auto; /* 手機版自動置中，不強制左移 */
+                margin-right: auto; 
                 margin-left: auto;
-                margin-top: 5vh;    /* 稍微靠上，留空間給背景 */
-                max-width: 340px;   /* 手機版抽獎框進一步收窄，精緻好看 */
-                padding: 60px 20px; /* 手機版內距縮少少，更和諧 */
-                background: rgba(255, 255, 255, 0.3); /* 手機版框框維持極高透明度 */
-                
-                /* 讓整個抽獎框在手機上等比例縮小，不再遮擋背景 */
+                margin-top: 5vh;    
+                max-width: 340px;   
+                padding: 60px 20px; 
+                background: rgba(255, 255, 255, 0.3); 
                 transform: scale(0.72); 
                 transform-origin: center top;
             }
             
-            /* 手機版的波波稍微縮小 */
             .ball {
                 width: 65px;
                 height: 65px;
@@ -162,7 +162,7 @@
         }
     </style>
 
-    <!-- 載入 Firebase 核心與即時資料庫 SDK -->
+    <!-- 載入 Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
@@ -258,7 +258,7 @@
         <div class="subtitle">✨ 終極大獎抽獎現場 ✨</div>
 
         <div class="balls-container" id="ballsContainer">
-            <div class="ball" id="ball-0"></div> 
+            <div class="ball" id="ball-0"></div>
             <div class="ball" id="ball-1"></div>
             <div class="ball" id="ball-2"></div>
             <div class="ball" id="ball-3"></div>
