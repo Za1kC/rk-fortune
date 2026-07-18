@@ -20,34 +20,42 @@
             font-family: 'Fredoka', sans-serif;
         }
 
-        /* 💻 電腦版與 iPad 的預設背景設定 */
+        /* 💻 電腦版基本設定 */
         body {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             color: var(--text-dark);
-            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            
+            /* 🟢 修正電腦版背景：改用 contain 確保整張相（包含左右）都完整顯示唔會被切走 */
             background-image: url('k.jpg'); 
-            background-size: cover; 
-            background-position: center;
-            background-color: #FFF0F2; 
-        } /* 🟢 修正：補返原本漏咗嘅大括號，令下面嘅手機設定可以生效 */
+            background-size: contain; 
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-color: #FFF0F2; /* 相片以外的地方用粉色底色緩衝 */
+        }
 
-        /* 💻 電腦版與 iPad 的抽獎框設定 */
+        /* 💻 電腦版抽獎框設定：縮小並置中放入「門」的位置 */
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.64); 
+            background: rgba(255, 255, 255, 0.75); /* 稍微提高濃度至75%，確保在門中間看得很清晰 */
             backdrop-filter: blur(8px);  
-            padding: 80px 25px;     
+            padding: 50px 25px;     
             border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3); 
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.5); 
             max-width: 400px;       
             width: 90%;             
-            margin-top: 25vh;       
-            margin-right: 35px;     
+            
+            /* 🟢 修正定位：取消原本的偏右(margin-right)與偏下，改為絕對居中，完美對齊背景中間的門 */
+            margin: 0 auto;
+            
+            /* 🟢 縮小框框：使用 scale 縮小至 80%（0.8），你可根據現場大螢幕比例自行微調成 0.75 或 0.85 */
+            transform: scale(0.8); 
+            transform-origin: center center;
         }
 
         h1 {
@@ -68,18 +76,18 @@
         .balls-container {
             display: flex;
             justify-content: center;
-            gap: 20px;          
+            gap: 15px;          
             flex-wrap: wrap;        
             min-height: 100px;
-            margin-bottom: 50px;    
+            margin-bottom: 40px;    
         }
 
         .ball {
-            width: 80px;
-            height: 80px;
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
             color: var(--text-dark);
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -104,8 +112,8 @@
         .ball:nth-child(6) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #B76E79 100%); color: #5A4A42; }
 
         .btn {
-            padding: 15px 40px;
-            font-size: 1.2rem;
+            padding: 12px 35px;
+            font-size: 1.1rem;
             font-weight: bold;
             color: white;
             background: linear-gradient(135deg, var(--pink-main) 0%, #E8A7A7 100%);
@@ -127,28 +135,26 @@
             display: inline-block;
             padding: 5px 15px;
             border-radius: 20px;
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
-        /* 📱 只有「窄螢幕手機」才會觸發的專屬微調 */
+        /* 📱 手機版微調 */
         @media (max-width: 480px) {
             body {
                 padding: 10px; 
-                /* 🟢 修正：寬度強制 100% 貼緊手機邊界，高度依比例自動計算，保證睇到整張圖嘅橫向闊度 */
                 background-size: 100% auto; 
-                background-repeat: no-repeat;
-                background-position: center top; /* 圖片靠頂部對齊 */
+                background-position: center top;
             }
             
             .container {
-                margin-right: auto; 
-                margin-left: auto;
-                margin-top: 5vh;    /* 🟢 修正：手機版將頂部間距收窄，防止白色框向下移位太多 */
                 max-width: 340px;   
-                padding: 50px 20px; /* 手機放小一點點內邊距 */
-                background: rgba(255, 255, 255, 0.75); /* 🟢 修正：稍微提高不透明度到 75%，避免背景長圖太花令字體難以閱讀 */
-                transform: scale(0.85); /* 優化縮放比例 */
+                padding: 40px 20px; 
+                background: rgba(255, 255, 255, 0.8); 
+                /* 手機版維持原本適當的縮放，放在上半部 */
+                transform: scale(0.85); 
                 transform-origin: center top;
+                margin-top: 5vh;
             }
             
             .ball {
