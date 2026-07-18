@@ -29,19 +29,16 @@
             justify-content: center;
             color: var(--text-dark);
             padding: 20px;
-            /* 🟢 修正：確保背景圖正確載入，後面加上漸變色作底色緩衝 */
             background-image: url('k.jpg'); 
             background-size: cover; 
             background-position: center;
             background-color: #FFF0F2; 
-        	color: var(--text-dark);
-            padding: 20px;
-        }
+        } /* 🟢 修正：補返原本漏咗嘅大括號，令下面嘅手機設定可以生效 */
 
         /* 💻 電腦版與 iPad 的抽獎框設定 */
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.64); /* 35% 透明，等你看得清背景圖 */
+            background: rgba(255, 255, 255, 0.64); 
             backdrop-filter: blur(8px);  
             padding: 80px 25px;     
             border-radius: 24px;
@@ -49,8 +46,8 @@
             border: 2px solid rgba(255, 255, 255, 0.3); 
             max-width: 400px;       
             width: 90%;             
-            margin-top: 25vh;       /* 沉到偏下方的位置 */
-            margin-right: 35px;     /* 電腦版往左挪，露出右邊背景 */
+            margin-top: 25vh;       
+            margin-right: 35px;     
         }
 
         h1 {
@@ -63,11 +60,11 @@
 
         .subtitle {
             font-size: 1.5rem;
-	color: #4A3B32; 		/*加深副標題顏色 */
+            color: #4A3B32;         
             margin-bottom: 40px;
-            /* 加入白色發光文字陰影，確保喺透明框內一眼睇到 */
             text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 2px 4px rgba(0,0,0,0.1);
         }
+        
         .balls-container {
             display: flex;
             justify-content: center;
@@ -99,7 +96,6 @@
             transform: scale(1) rotate(0deg);
         }
 
-        /* 🎨 六個波波專屬香檳粉粉嫩顏色 */
         .ball:nth-child(1) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F1E5AC 45%, #D4AF37 100%); color: #5A4A42; } 
         .ball:nth-child(2) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F4C2C2 45%, #F7E7C4 100%); color: #5A4A42; } 
         .ball:nth-child(3) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #F3C4BF 100%); color: #5A4A42; } 
@@ -136,18 +132,22 @@
 
         /* 📱 只有「窄螢幕手機」才會觸發的專屬微調 */
         @media (max-width: 480px) {
-		body {
-                padding: 10px; /* 手機版邊緣留白縮小 */
-		}
+            body {
+                padding: 10px; 
+                /* 🟢 修正：寬度強制 100% 貼緊手機邊界，高度依比例自動計算，保證睇到整張圖嘅橫向闊度 */
+                background-size: 100% auto; 
+                background-repeat: no-repeat;
+                background-position: center top; /* 圖片靠頂部對齊 */
+            }
+            
             .container {
                 margin-right: auto; 
                 margin-left: auto;
-                margin-top: 25vh;	/* 沉到偏下方的位置 */    
-                max-width: 340px;   	/*將手機版的寬度從 450px 進一步收窄到 360px */
-                padding: 80px 20px; 
-                background: rgba(255, 255, 255, 0.35); 
-		background-size: 100% auto;
-                transform: scale(0.7); 
+                margin-top: 5vh;    /* 🟢 修正：手機版將頂部間距收窄，防止白色框向下移位太多 */
+                max-width: 340px;   
+                padding: 50px 20px; /* 手機放小一點點內邊距 */
+                background: rgba(255, 255, 255, 0.75); /* 🟢 修正：稍微提高不透明度到 75%，避免背景長圖太花令字體難以閱讀 */
+                transform: scale(0.85); /* 優化縮放比例 */
                 transform-origin: center top;
             }
             
