@@ -20,7 +20,6 @@
             font-family: 'Fredoka', sans-serif;
         }
 
-        /* 💻 電腦版基本設定 */
         body {
             min-height: 100vh;
             display: flex;
@@ -29,19 +28,16 @@
             color: var(--text-dark);
             position: relative;
             overflow-x: hidden;
-            
-            /* 🟢 修正電腦版背景：改用 contain 確保整張相（包含左右）都完整顯示唔會被切走 */
             background-image: url('k.jpg'); 
             background-size: contain; 
             background-position: center center;
             background-repeat: no-repeat;
-            background-color: #FFF0F2; /* 相片以外的地方用粉色底色緩衝 */
+            background-color: #FFF0F2; 
         }
 
-        /* 💻 電腦版抽獎框設定：縮小並置中放入「門」的位置 */
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.75); /* 稍微提高濃度至75%，確保在門中間看得很清晰 */
+            background: rgba(255, 255, 255, 0.75); 
             backdrop-filter: blur(8px);  
             padding: 50px 25px;     
             border-radius: 24px;
@@ -49,11 +45,7 @@
             border: 2px solid rgba(255, 255, 255, 0.5); 
             max-width: 400px;       
             width: 90%;             
-            
-            /* 🟢 修正定位：取消原本的偏右(margin-right)與偏下，改為絕對居中，完美對齊背景中間的門 */
             margin: 0 auto;
-            
-            /* 🟢 縮小框框：使用 scale 縮小至 80%（0.8），你可根據現場大螢幕比例自行微調成 0.75 或 0.85 */
             transform: scale(0.8); 
             transform-origin: center center;
         }
@@ -96,7 +88,7 @@
             border: 2px solid #FFF;
             opacity: 0;
             transform: scale(0.3) rotate(-360deg);
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .ball.show {
@@ -104,6 +96,19 @@
             transform: scale(1) rotate(0deg);
         }
 
+        /* 🌟 核心：最新開出果粒波波嘅「大大隻彈出 (Zoom-pop)」特效 */
+        @keyframes popZoom {
+            0% { transform: scale(0.3) rotate(-180deg); opacity: 0; }
+            50% { transform: scale(1.6) rotate(10deg); opacity: 1; background-color: #FFF; box-shadow: 0 0 40px rgba(212, 175, 55, 0.8); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .ball.latest-pop {
+            animation: popZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            z-index: 10;
+        }
+
+        /* 🎨 六個波波專屬香檳粉粉嫩顏色 */
         .ball:nth-child(1) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F1E5AC 45%, #D4AF37 100%); color: #5A4A42; } 
         .ball:nth-child(2) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F4C2C2 45%, #F7E7C4 100%); color: #5A4A42; } 
         .ball:nth-child(3) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #F3C4BF 100%); color: #5A4A42; } 
@@ -139,7 +144,6 @@
             border: 1px solid rgba(0,0,0,0.05);
         }
 
-        /* 📱 手機版微調 */
         @media (max-width: 480px) {
             body {
                 padding: 10px; 
@@ -151,7 +155,6 @@
                 max-width: 340px;   
                 padding: 40px 20px; 
                 background: rgba(255, 255, 255, 0.8); 
-                /* 手機版維持原本適當的縮放，放在上半部 */
                 transform: scale(0.85); 
                 transform-origin: center top;
                 margin-top: 5vh;
@@ -187,6 +190,7 @@
         const luckyNumbers = ["09", "24", "06", "25", "01", "16"];
         let currentCountInDB = 0;
         let isMaster = false;
+        let previousCount = 0; // 用黎追蹤係咪有新波開出
 
         function init() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -206,7 +210,13 @@
             onValue(statusRef, (snapshot) => {
                 const data = snapshot.val();
                 currentCountInDB = data ? data.drawnCount : 0;
-                updateScreenBalls(currentCountInDB);
+                
+                // 判斷係咪真係開咗新波（數量多咗）
+                const isNewBall = currentCountInDB > previousCount;
+                
+                updateScreenBalls(currentCountInDB, isNewBall);
+                
+                previousCount = currentCountInDB; // 更新記錄
 
                 if (isMaster) {
                     if (currentCountInDB >= luckyNumbers.length) {
@@ -220,12 +230,21 @@
             });
         }
 
-        function updateScreenBalls(count) {
+        function updateScreenBalls(count, isNewBall) {
             for (let i = 0; i < luckyNumbers.length; i++) {
                 const ball = document.getElementById(`ball-${i}`);
+                
+                // 先清除之前可能殘留嘅彈出特效 class
+                ball.classList.remove('latest-pop');
+
                 if (i < count) {
                     ball.innerText = luckyNumbers[i];
                     ball.classList.add('show');
+
+                    // 🟢 如果呢個係剛剛先開出嚟嘅「最新一個號碼」，就額外加上大大隻彈出特效！
+                    if (isNewBall && i === count - 1) {
+                        ball.classList.add('latest-pop');
+                    }
                 } else {
                     ball.innerText = '';
                     ball.classList.remove('show');
