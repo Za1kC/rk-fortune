@@ -39,15 +39,13 @@
             text-align: center;
             background: rgba(255, 255, 255, 0.75); 
             backdrop-filter: blur(8px);  
-            padding: 50px 25px;     
+            padding: 50px 35px;     
             border-radius: 24px;
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.5); 
-            max-width: 400px;       
+            max-width: 550px;       
             width: 90%;             
             margin: 0 auto;
-            transform: scale(0.8); 
-            transform-origin: center center;
         }
 
         h1 {
@@ -96,7 +94,7 @@
             transform: scale(1) rotate(0deg);
         }
 
-        /* 🌟 核心：最新開出果粒波波嘅「大大隻彈出 (Zoom-pop)」特效 */
+        /* 🌟 最新開出波波的「大大隻彈出 (Zoom-pop)」特效 */
         @keyframes popZoom {
             0% { transform: scale(0.3) rotate(-180deg); opacity: 0; }
             50% { transform: scale(1.6) rotate(10deg); opacity: 1; background-color: #FFF; box-shadow: 0 0 40px rgba(212, 175, 55, 0.8); }
@@ -152,11 +150,9 @@
             }
             
             .container {
-                max-width: 340px;   
+                max-width: 90%;   
                 padding: 40px 20px; 
                 background: rgba(255, 255, 255, 0.8); 
-                transform: scale(0.85); 
-                transform-origin: center top;
                 margin-top: 5vh;
             }
             
@@ -190,7 +186,7 @@
         const luckyNumbers = ["09", "24", "06", "25", "01", "16"];
         let currentCountInDB = 0;
         let isMaster = false;
-        let previousCount = 0; // 用黎追蹤係咪有新波開出
+        let previousCount = 0;
 
         function init() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -211,12 +207,9 @@
                 const data = snapshot.val();
                 currentCountInDB = data ? data.drawnCount : 0;
                 
-                // 判斷係咪真係開咗新波（數量多咗）
                 const isNewBall = currentCountInDB > previousCount;
-                
                 updateScreenBalls(currentCountInDB, isNewBall);
-                
-                previousCount = currentCountInDB; // 更新記錄
+                previousCount = currentCountInDB;
 
                 if (isMaster) {
                     if (currentCountInDB >= luckyNumbers.length) {
@@ -233,15 +226,12 @@
         function updateScreenBalls(count, isNewBall) {
             for (let i = 0; i < luckyNumbers.length; i++) {
                 const ball = document.getElementById(`ball-${i}`);
-                
-                // 先清除之前可能殘留嘅彈出特效 class
                 ball.classList.remove('latest-pop');
 
                 if (i < count) {
                     ball.innerText = luckyNumbers[i];
                     ball.classList.add('show');
 
-                    // 🟢 如果呢個係剛剛先開出嚟嘅「最新一個號碼」，就額外加上大大隻彈出特效！
                     if (isNewBall && i === count - 1) {
                         ball.classList.add('latest-pop');
                     }
