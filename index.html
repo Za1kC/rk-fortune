@@ -20,280 +20,74 @@
             font-family: 'Fredoka', sans-serif;
         }
 
+        /* 💻 電腦版：全螢幕 Fullscreen 鋪滿設定 */
         body {
             min-height: 100vh;
+            width: 100vw;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-dark);
             position: relative;
-            overflow-x: hidden;
+            overflow: hidden; /* 防止電腦版出現多餘滾動條 */
+            
+            /* 🟢 電腦版改用 cover，讓背景圖完美 Fullscreen 鋪滿整個螢幕 */
             background-image: url('k.jpg'); 
-            background-size: contain; 
+            background-size: cover; 
             background-position: center center;
             background-repeat: no-repeat;
             background-color: #FFF0F2; 
         }
 
+        /* 💻 電腦版抽獎框設定：在大螢幕上大器展現 */
         .container {
             text-align: center;
             background: rgba(255, 255, 255, 0.75); 
-            backdrop-filter: blur(8px);  
-            padding: 50px 25px;     
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.5); 
-            max-width: 400px;       
+            backdrop-filter: blur(10px);  
+            padding: 60px 40px;     
+            border-radius: 28px;
+            box-shadow: 0 15px 40px rgba(90, 74, 66, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.6); 
+            max-width: 480px;       /* 電腦版稍微加寬，更大器 */
             width: 90%;             
             margin: 0 auto;
-            transform: scale(0.8); 
-            transform-origin: center center;
+            transform: scale(1);    /* 電腦版以 100% 正常大小全螢幕呈現 */
         }
 
         h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;        /* 電腦版標題大大放大，更有氣勢 */
             margin-bottom: 10px;
             color: var(--text-dark);
-            text-shadow: 2px 2px 0px #FFF, 4px 4px 10px rgba(212, 175, 55, 0.3);
+            text-shadow: 2px 2px 0px #FFF, 4px 4px 12px rgba(212, 175, 55, 0.35);
             letter-spacing: 2px;
         }
 
         .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: #4A3B32;         
-            margin-bottom: 40px;
+            margin-bottom: 35px;
             text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .balls-container {
             display: flex;
             justify-content: center;
-            gap: 15px;          
+            gap: 18px;          
             flex-wrap: wrap;        
-            min-height: 100px;
+            min-height: 110px;
             margin-bottom: 40px;    
         }
 
         .ball {
-            width: 75px;
-            height: 75px;
+            width: 85px;            /* 電腦版波波放大，清晰顯眼 */
+            height: 85px;
             border-radius: 50%;
             color: var(--text-dark);
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15), inset -5px -5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), inset -5px -5px 15px rgba(0,0,0,0.2);
             border: 2px solid #FFF;
-            opacity: 0;
-            transform: scale(0.3) rotate(-360deg);
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .ball.show {
-            opacity: 1;
-            transform: scale(1) rotate(0deg);
-        }
-
-        /* 🌟 核心：最新開出果粒波波嘅「大大隻彈出 (Zoom-pop)」特效 */
-        @keyframes popZoom {
-            0% { transform: scale(0.3) rotate(-180deg); opacity: 0; }
-            50% { transform: scale(1.6) rotate(10deg); opacity: 1; background-color: #FFF; box-shadow: 0 0 40px rgba(212, 175, 55, 0.8); }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-
-        .ball.latest-pop {
-            animation: popZoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            z-index: 10;
-        }
-
-        /* 🎨 六個波波專屬香檳粉粉嫩顏色 */
-        .ball:nth-child(1) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F1E5AC 45%, #D4AF37 100%); color: #5A4A42; } 
-        .ball:nth-child(2) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F4C2C2 45%, #F7E7C4 100%); color: #5A4A42; } 
-        .ball:nth-child(3) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #F3C4BF 100%); color: #5A4A42; } 
-        .ball:nth-child(4) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F1E5AC 45%, #F1DBC9 100%); color: #5A4A42; } 
-        .ball:nth-child(5) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F4C2C2 45%, #FADDB5 100%); color: #5A4A42; } 
-        .ball:nth-child(6) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #B76E79 100%); color: #5A4A42; }
-
-        .btn {
-            padding: 12px 35px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: white;
-            background: linear-gradient(135deg, var(--pink-main) 0%, #E8A7A7 100%);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(244, 194, 194, 0.4);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.4);
-            margin: 5px;
-        }
-
-        .btn:hover { transform: translateY(-2px); }
-        .btn:disabled { background: #CCC; cursor: not-allowed; box-shadow: none; }
-
-        .role-badge {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 10px; 
-                background-size: 100% auto; 
-                background-position: center top;
-            }
-            
-            .container {
-                max-width: 340px;   
-                padding: 40px 20px; 
-                background: rgba(255, 255, 255, 0.8); 
-                transform: scale(0.85); 
-                transform-origin: center top;
-                margin-top: 5vh;
-            }
-            
-            .ball {
-                width: 65px;
-                height: 65px;
-                font-size: 1.6rem;
-            }
-        }
-    </style>
-
-    <!-- 載入 Firebase -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCMM0JK9gY8zqrNDTokTKjXmAFFK2a9u1E",
-            authDomain: "rk-fortune.firebaseapp.com",
-            databaseURL: "https://rk-fortune-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "rk-fortune",
-            storageBucket: "rk-fortune.firebasestorage.app",
-            messagingSenderId: "831909000358",
-            appId: "1:831909000358:web:cda6893f593171e1ae7067"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const statusRef = ref(db, 'lotteryStatus');
-
-        const luckyNumbers = ["09", "24", "06", "25", "01", "16"];
-        let currentCountInDB = 0;
-        let isMaster = false;
-        let previousCount = 0; // 用黎追蹤係咪有新波開出
-
-        function init() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const drawBtn = document.getElementById('drawBtn');
-            const resetBtn = document.getElementById('resetBtn');
-            const statusMessage = document.getElementById('statusMessage');
-
-            if (urlParams.get('mode') === 'master') {
-                isMaster = true;
-                drawBtn.style.display = 'inline-block';
-                resetBtn.style.display = 'inline-block';
-                statusMessage.innerText = '🔮 控制端模式 (Master)：您可以控制全場抽獎';
-            } else {
-                statusMessage.innerText = '📱 觀眾同步模式：已成功連線，等待 Master 抽獎...';
-            }
-
-            onValue(statusRef, (snapshot) => {
-                const data = snapshot.val();
-                currentCountInDB = data ? data.drawnCount : 0;
-                
-                // 判斷係咪真係開咗新波（數量多咗）
-                const isNewBall = currentCountInDB > previousCount;
-                
-                updateScreenBalls(currentCountInDB, isNewBall);
-                
-                previousCount = currentCountInDB; // 更新記錄
-
-                if (isMaster) {
-                    if (currentCountInDB >= luckyNumbers.length) {
-                        drawBtn.innerText = '🎉 抽獎完成 🎉';
-                        drawBtn.disabled = true;
-                    } else {
-                        drawBtn.innerText = '開出下一個號碼';
-                        drawBtn.disabled = false;
-                    }
-                }
-            });
-        }
-
-        function updateScreenBalls(count, isNewBall) {
-            for (let i = 0; i < luckyNumbers.length; i++) {
-                const ball = document.getElementById(`ball-${i}`);
-                
-                // 先清除之前可能殘留嘅彈出特效 class
-                ball.classList.remove('latest-pop');
-
-                if (i < count) {
-                    ball.innerText = luckyNumbers[i];
-                    ball.classList.add('show');
-
-                    // 🟢 如果呢個係剛剛先開出嚟嘅「最新一個號碼」，就額外加上大大隻彈出特效！
-                    if (isNewBall && i === count - 1) {
-                        ball.classList.add('latest-pop');
-                    }
-                } else {
-                    ball.innerText = '';
-                    ball.classList.remove('show');
-                }
-            }
-        }
-
-        window.drawNextBall = function() {
-            if (!isMaster) return;
-            if (currentCountInDB < luckyNumbers.length) {
-                set(statusRef, {
-                    drawnCount: currentCountInDB + 1
-                });
-            }
-        }
-
-        window.resetLottery = function() {
-            if (!isMaster) return;
-            if (confirm("確定要重設抽獎狀態嗎？全場畫面將會清空。")) {
-                set(statusRef, {
-                    drawnCount: 0
-                });
-            }
-        }
-
-        init();
-    </script>
-</head>
-<body>
-
-    <div class="container">
-        <h1>R&K fortune</h1>
-        <div class="subtitle">✨ 終極大獎抽獎現場 ✨</div>
-
-        <div class="balls-container" id="ballsContainer">
-            <div class="ball" id="ball-0"></div>
-            <div class="ball" id="ball-1"></div>
-            <div class="ball" id="ball-2"></div>
-            <div class="ball" id="ball-3"></div>
-            <div class="ball" id="ball-4"></div>
-            <div class="ball" id="ball-5"></div>
-        </div>
-
-        <button class="btn" id="drawBtn" onclick="drawNextBall()" style="display: none;">開出下一個號碼</button>
-        <button class="btn" id="resetBtn" onclick="resetLottery()" style="display: none; background: #A8A8A8;">重設</button>
-        
-        <br>
-        <div id="statusMessage" class="role-badge">正在同步連線...</div>
-    </div>
-
-</body>
-</html>
+            opacity
