@@ -20,51 +20,48 @@
             font-family: 'Fredoka', sans-serif;
         }
 
-        /* 💻 電腦版：全螢幕鋪滿設定（改用 auto，確保內容絕對不會被隱藏） */
         body {
             min-height: 100vh;
-            width: 100vw;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-dark);
             position: relative;
-            overflow-y: auto; /* 🟢 修正：改成 auto，確保就算螢幕短都能正常上下滾動看到所有內容 */
-            
+            overflow-x: hidden;
             background-image: url('k.jpg'); 
-            background-size: cover; 
+            background-size: contain; 
             background-position: center center;
             background-repeat: no-repeat;
             background-color: #FFF0F2; 
         }
 
-        /* 💻 電腦版抽獎框設定 */
         .container {
             text-align: center;
             background: rgba(255, 255, 255, 0.75); 
-            backdrop-filter: blur(10px);  
-            padding: 50px 30px;     
-            border-radius: 28px;
-            box-shadow: 0 15px 40px rgba(90, 74, 66, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.6); 
-            max-width: 480px;       
+            backdrop-filter: blur(8px);  
+            padding: 50px 25px;     
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.5); 
+            max-width: 400px;       
             width: 90%;             
-            margin: auto;           /* 🟢 確保電腦版絕對置中 */
-            transform: scale(1);    
+            margin: 0 auto;
+            transform: scale(0.8); 
+            transform-origin: center center;
         }
 
         h1 {
-            font-size: 3.8rem;        
+            font-size: 3.5rem;
             margin-bottom: 10px;
             color: var(--text-dark);
-            text-shadow: 2px 2px 0px #FFF, 4px 4px 12px rgba(212, 175, 55, 0.35);
+            text-shadow: 2px 2px 0px #FFF, 4px 4px 10px rgba(212, 175, 55, 0.3);
             letter-spacing: 2px;
         }
 
         .subtitle {
             font-size: 1.5rem;
             color: #4A3B32;         
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 2px 4px rgba(0,0,0,0.1);
         }
         
@@ -78,16 +75,16 @@
         }
 
         .ball {
-            width: 80px;            
-            height: 80px;
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
             color: var(--text-dark);
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), inset -5px -5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15), inset -5px -5px 15px rgba(0,0,0,0.2);
             border: 2px solid #FFF;
             opacity: 0;
             transform: scale(0.3) rotate(-360deg);
@@ -99,10 +96,10 @@
             transform: scale(1) rotate(0deg);
         }
 
-        /* 🌟 新波波彈出動畫 */
+        /* 🌟 核心：最新開出果粒波波嘅「大大隻彈出 (Zoom-pop)」特效 */
         @keyframes popZoom {
             0% { transform: scale(0.3) rotate(-180deg); opacity: 0; }
-            50% { transform: scale(1.6) rotate(10deg); opacity: 1; background-color: #FFF; box-shadow: 0 0 50px rgba(212, 175, 55, 0.9); }
+            50% { transform: scale(1.6) rotate(10deg); opacity: 1; background-color: #FFF; box-shadow: 0 0 40px rgba(212, 175, 55, 0.8); }
             100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
 
@@ -120,8 +117,8 @@
         .ball:nth-child(6) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #B76E79 100%); color: #5A4A42; }
 
         .btn {
-            padding: 14px 40px;
-            font-size: 1.2rem;
+            padding: 12px 35px;
+            font-size: 1.1rem;
             font-weight: bold;
             color: white;
             background: linear-gradient(135deg, var(--pink-main) 0%, #E8A7A7 100%);
@@ -139,19 +136,17 @@
 
         .role-badge {
             margin-top: 20px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             display: inline-block;
-            padding: 6px 18px;
+            padding: 5px 15px;
             border-radius: 20px;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.6);
             border: 1px solid rgba(0,0,0,0.05);
         }
 
-        /* 📱 手機版：完美鎖定你剛才調好的版面，完全不變！ */
         @media (max-width: 480px) {
             body {
                 padding: 10px; 
-                overflow-y: auto;
                 background-size: 100% auto; 
                 background-position: center top;
             }
@@ -163,10 +158,6 @@
                 transform: scale(0.85); 
                 transform-origin: center top;
                 margin-top: 5vh;
-            }
-
-            h1 {
-                font-size: 3.5rem;
             }
             
             .ball {
@@ -199,7 +190,7 @@
         const luckyNumbers = ["09", "24", "06", "25", "01", "16"];
         let currentCountInDB = 0;
         let isMaster = false;
-        let previousCount = 0;
+        let previousCount = 0; // 用黎追蹤係咪有新波開出
 
         function init() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -220,9 +211,12 @@
                 const data = snapshot.val();
                 currentCountInDB = data ? data.drawnCount : 0;
                 
+                // 判斷係咪真係開咗新波（數量多咗）
                 const isNewBall = currentCountInDB > previousCount;
+                
                 updateScreenBalls(currentCountInDB, isNewBall);
-                previousCount = currentCountInDB;
+                
+                previousCount = currentCountInDB; // 更新記錄
 
                 if (isMaster) {
                     if (currentCountInDB >= luckyNumbers.length) {
@@ -239,12 +233,15 @@
         function updateScreenBalls(count, isNewBall) {
             for (let i = 0; i < luckyNumbers.length; i++) {
                 const ball = document.getElementById(`ball-${i}`);
+                
+                // 先清除之前可能殘留嘅彈出特效 class
                 ball.classList.remove('latest-pop');
 
                 if (i < count) {
                     ball.innerText = luckyNumbers[i];
                     ball.classList.add('show');
 
+                    // 🟢 如果呢個係剛剛先開出嚟嘅「最新一個號碼」，就額外加上大大隻彈出特效！
                     if (isNewBall && i === count - 1) {
                         ball.classList.add('latest-pop');
                     }
