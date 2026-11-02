@@ -35,34 +35,36 @@
             background-color: #FFF0F2; 
         }
 
-	.container {
+        /* 💻 電腦版抽獎框：收窄、上下拉長、整體放大 */
+        .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.78); /* 稍微調高不透明度，大螢幕看更清晰 */
+            background: rgba(255, 255, 255, 0.78); 
             backdrop-filter: blur(8px);  
-            padding: 50px 35px;     
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.5); 
-            max-width: 550px;       
+            padding: 75px 25px;     /* 上下 75px 拉長，左右 25px 收窄 */
+            border-radius: 28px;
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.6); 
+            max-width: 420px;       /* 寬度由 550px 收窄至 420px，符合拱門比例 */
             width: 90%;             
             margin: 0 auto;
-            
-            /* 🟢 核心修改：讓電腦版的抽獎框整體放大！ */
-            transform: scale(2.5); /* 數字越大框框和字體就越大，你可以改成 1.3 或 1.4 */
-            transform-origin: center center; /* 從正中心向外放大 */
+            transform: scale(1.25); /* 整體放大 1.25 倍，讓大螢幕看更宏偉 */
+            transform-origin: center center;
         }
+
+        /* 🟢 標題放大 */
         h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
+            font-size: 4rem;
+            margin-bottom: 12px;
             color: var(--text-dark);
-            text-shadow: 2px 2px 0px #FFF, 4px 4px 10px rgba(212, 175, 55, 0.3);
+            text-shadow: 2px 2px 0px #FFF, 4px 4px 12px rgba(212, 175, 55, 0.35);
             letter-spacing: 2px;
         }
 
+        /* 🟢 副標題放大 */
         .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             color: #4A3B32;         
-            margin-bottom: 40px;
+            margin-bottom: 45px;
             text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 2px 4px rgba(0,0,0,0.1);
         }
         
@@ -71,16 +73,17 @@
             justify-content: center;
             gap: 15px;          
             flex-wrap: wrap;        
-            min-height: 100px;
-            margin-bottom: 40px;    
+            min-height: 110px;
+            margin-bottom: 50px;    
         }
 
+        /* 🟢 六合彩波波放大 */
         .ball {
-            width: 75px;
-            height: 75px;
+            width: 85px;            /* 從 75px 放大至 85px */
+            height: 85px;
             border-radius: 50%;
             color: var(--text-dark);
-            font-size: 1.8rem;
+            font-size: 2.2rem;      /* 數字同步放大 */
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -97,7 +100,7 @@
             transform: scale(1) rotate(0deg);
         }
 
-        /* 🌟 最新開出波波的「大大隻彈出 (Zoom-pop)」特效 */
+        /* 🌟 最新開出波波的彈出 (Zoom-pop) 特效 */
         @keyframes popZoom {
             0% { transform: scale(0.3) rotate(-180deg); opacity: 0; }
             50% { transform: scale(1.6) rotate(10deg); opacity: 1; background-color: #FFF; box-shadow: 0 0 40px rgba(212, 175, 55, 0.8); }
@@ -109,7 +112,7 @@
             z-index: 10;
         }
 
-        /* 🎨 六個波波專屬香檳粉粉嫩顏色 */
+        /* 🎨 六個波波專屬顏色 */
         .ball:nth-child(1) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F1E5AC 45%, #D4AF37 100%); color: #5A4A42; } 
         .ball:nth-child(2) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F4C2C2 45%, #F7E7C4 100%); color: #5A4A42; } 
         .ball:nth-child(3) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #F3C4BF 100%); color: #5A4A42; } 
@@ -117,9 +120,10 @@
         .ball:nth-child(5) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #F4C2C2 45%, #FADDB5 100%); color: #5A4A42; } 
         .ball:nth-child(6) { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #E8C3BA 45%, #B76E79 100%); color: #5A4A42; }
 
+        /* 🟢 按鈕放大 */
         .btn {
-            padding: 12px 35px;
-            font-size: 1.1rem;
+            padding: 15px 40px;
+            font-size: 1.3rem;
             font-weight: bold;
             color: white;
             background: linear-gradient(135deg, var(--pink-main) 0%, #E8A7A7 100%);
@@ -137,14 +141,15 @@
 
         .role-badge {
             margin-top: 20px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             display: inline-block;
-            padding: 5px 15px;
+            padding: 6px 18px;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.6);
             border: 1px solid rgba(0,0,0,0.05);
         }
 
+        /* 📱 手機版維持獨立尺寸 */
         @media (max-width: 480px) {
             body {
                 padding: 10px; 
@@ -157,8 +162,11 @@
                 padding: 40px 20px; 
                 background: rgba(255, 255, 255, 0.8); 
                 margin-top: 5vh;
+                transform: scale(1);
             }
             
+            h1 { font-size: 3.5rem; }
+            .subtitle { font-size: 1.5rem; }
             .ball {
                 width: 65px;
                 height: 65px;
