@@ -40,7 +40,7 @@
             text-align: center;
             background: rgba(255, 255, 255, 0.8); 
             backdrop-filter: blur(8px);  
-            padding: 500px 10px;     /* 🟢 上下拉長 (90px)，左右收窄 (40px) */
+            padding: 40px 45px 70px 45px;     /* 🟢 上下拉長 (90px)，左右收窄 (40px) */
             border-radius: 32px;
             box-shadow: 0 15px 40px rgba(212, 175, 55, 0.25);
             border: 2px solid rgba(255, 255, 255, 0.7); 
@@ -50,6 +50,9 @@
             width: 90%;             
             margin: 0 auto;
             /* ❌ 拿掉所有 transform scale，避免被強制縮小 */
+	/* 電腦版整體放大 1.5 倍 */
+            transform: scale(1.5);
+            transform-origin: center center;
         }
 
         /* 🟢 大幅放大標題 */
