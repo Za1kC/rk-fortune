@@ -39,14 +39,14 @@
         .container {
             text-align: center;
             background: rgba(255, 255, 255, 0.8); 
-            backdrop-filter: blur(8px);  
-            padding: 30px 45px 100px 45px;     /* 🟢 上下拉長 (90px)，左右收窄 (40px) */
+            backdrop-filter: blur(7px);  
+            padding: 30px 45px 150px 45px;     /* 🟢 上方縮小到 30px（讓標題往上），下方拉長到 110px，左右適度收窄 */
             border-radius: 32px;
             box-shadow: 0 15px 40px rgba(212, 175, 55, 0.25);
             border: 2px solid rgba(255, 255, 255, 0.7); 
             
             /* 🟢 實體放大寬度（令框框夠大夠氣勢，同時保持修長比例） */
-            max-width: 1250px;       
+            max-width: 1000px;       
             width: 90%;             
             margin: 0 auto;
             /* ❌ 拿掉所有 transform scale，避免被強制縮小 */
