@@ -50,6 +50,12 @@
             width: 90%;             
             margin: 150px auto 0 auto; /* 上方 0，左右自動置中，下方 0 */
             /* ❌ 拿掉所有 transform scale，避免被強制縮小 */
+
+	/* 🟢 關鍵：把 container 變成彈性盒子，讓內部元素上下分開 */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+	
 	/* 電腦版整體放大 1.5 倍 */
             transform: scale(1.5);
             transform-origin: center center;
