@@ -35,22 +35,26 @@
             background-color: #FFF0F2; 
         }
 
-        /* 💻 電腦版抽獎框：直接用實體寬度與 padding 拉長、收窄、放大 */
+	/* 💻 電腦版抽獎框：上下縮短、整體位置向下移 */
         .container {
             text-align: center;
             background: rgba(255, 255, 255, 0.8); 
             backdrop-filter: blur(1px);  
-            padding: 50px 20px 50px 20px;     /* 🟢 上方縮小到 30px（讓標題往上），下方拉長到 110px，左右適度收窄 */
+            
+            /* 🟢 1. 短啲：將上下 padding 由 50px 縮減到 25px（如果你想再短啲，可以改 15px 或 20px） */
+            padding: 25px 20px 25px 20px;     
+            
             border-radius: 32px;
             box-shadow: 0 15px 40px rgba(212, 175, 55, 0.25);
             border: 2px solid rgba(255, 255, 255, 0.7); 
             
-            /* 🟢 實體放大寬度（令框框夠大夠氣勢，同時保持修長比例） */
             max-width: 380px;       
             width: 90%;             
-            margin: 150px auto 0 auto; /* 上方 0，左右自動置中，下方 0 */
+            
+            /* 🟢 2. 落啲：將 margin-top 由 150px 加大到 220px（數值越大越向下移） */
+            margin: 220px auto 0 auto; 
+      
             /* ❌ 拿掉所有 transform scale，避免被強制縮小 */
-
 	/* 🟢 關鍵：把 container 變成彈性盒子，讓內部元素上下分開 */
             display: flex;
             flex-direction: column;
