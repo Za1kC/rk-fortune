@@ -42,17 +42,17 @@
             backdrop-filter: blur(1px);  
             
             /* 🟢 1. 短啲：將上下 padding 由 50px 縮減到 25px（如果你想再短啲，可以改 15px 或 20px） */
-            padding: 25px 20px 25px 20px;     
+            padding: 23px 20px 25px 20px;     
             
             border-radius: 32px;
             box-shadow: 0 15px 40px rgba(212, 175, 55, 0.25);
             border: 2px solid rgba(255, 255, 255, 0.7); 
             
-            max-width: 380px;       
+            max-width: 420px;       
             width: 90%;             
             
             /* 🟢 2. 落啲：將 margin-top 由 150px 加大到 220px（數值越大越向下移） */
-            margin: 220px auto 0 auto; 
+            margin: 180px auto 0 auto; 
       
             /* ❌ 拿掉所有 transform scale，避免被強制縮小 */
 	/* 🟢 關鍵：把 container 變成彈性盒子，讓內部元素上下分開 */
@@ -174,11 +174,19 @@
             
             .container {
                 max-width: 90%;   
-                padding: 10px 20px; 
+                padding: 10px 10px; 
                 background: rgba(255, 255, 255, 0.8); 
-           	backdrop-filter: blur(1px);  
+           	backdrop-filter: blur(0.5px);  
                 margin-top: 3vh;
-            }
+ 
+            border-radius: 32px;
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.7); 
+            
+
+            /* 🟢 2. 落啲：將 margin-top 由 150px 加大到 220px（數值越大越向下移） */
+            margin: 100px auto 0 auto; 
+	}
             
             h1 { font-size: 3.5rem; }
             .subtitle { font-size: 1.5rem; margin-bottom: 30px; }
